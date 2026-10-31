@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  Manifeste Lumento, généré pour une organisation par la page manifest.html.
+  Il contient les identifiants de l'organisation : gardez-le en privé, ne le publiez pas.
+  Format XML (complément uniquement) : seul format pris en charge à la fois par
+  Outlook sur le web, le nouvel Outlook pour Windows, Outlook classique et Outlook pour Mac.
+-->
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+           xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+           xsi:type="MailApp">
+  <Id>{{MANIFEST_ID}}</Id>
+  <Version>0.1.0.0</Version>
+  <ProviderName>{{PROVIDER}}</ProviderName>
+  <DefaultLocale>fr-FR</DefaultLocale>
+  <DisplayName DefaultValue="Lumento"/>
+  <Description DefaultValue="Met à jour la fiche contact de l'expéditeur à partir de sa signature."/>
+  <IconUrl DefaultValue="{{HOST}}/assets/icon-64.png"/>
+  <HighResolutionIconUrl DefaultValue="{{HOST}}/assets/icon-128.png"/>
+  <SupportUrl DefaultValue="{{HOST}}/"/>
+  <AppDomains>
+    <AppDomain>{{ORIGIN}}</AppDomain>
+    <AppDomain>https://login.microsoftonline.com</AppDomain>
+  </AppDomains>
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.3"/>
+    </Sets>
+  </Requirements>
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="{{HOST}}/taskpane.html?{{QUERY}}"/>
+        <RequestedHeight>450</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+  <!-- Lecture de l'élément ouvert uniquement. -->
+  <Permissions>ReadItem</Permissions>
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
+  </Rule>
+  <DisableEntityHighlighting>false</DisableEntityHighlighting>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <!-- Version 1.1 : volet épinglable, qui revérifie chaque e-mail sélectionné (Mailbox 1.5). -->
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.5">
+          <bt:Set Name="Mailbox"/>
+        </bt:Sets>
+      </Requirements>
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <DesktopFormFactor>
+            <ExtensionPoint xsi:type="MessageReadCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="lumentoGroup">
+                  <Label resid="GroupLabel"/>
+                  <Control xsi:type="Button" id="majContactButton">
+                    <Label resid="Bouton.Label"/>
+                    <Supertip>
+                      <Title resid="Bouton.Label"/>
+                      <Description resid="Bouton.Tooltip"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="Icon.16x16"/>
+                      <bt:Image size="32" resid="Icon.32x32"/>
+                      <bt:Image size="80" resid="Icon.80x80"/>
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="Taskpane.Url"/>
+                      <SupportsPinning>true</SupportsPinning>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+      <Resources>
+        <bt:Images>
+          <bt:Image id="Icon.16x16" DefaultValue="{{HOST}}/assets/icon-16.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="{{HOST}}/assets/icon-32.png"/>
+          <bt:Image id="Icon.80x80" DefaultValue="{{HOST}}/assets/icon-80.png"/>
+        </bt:Images>
+        <bt:Urls>
+          <bt:Url id="Taskpane.Url" DefaultValue="{{HOST}}/taskpane.html?{{QUERY}}"/>
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="GroupLabel" DefaultValue="Lumento"/>
+          <bt:String id="Bouton.Label" DefaultValue="Mettre à jour le contact"/>
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="Bouton.Tooltip" DefaultValue="Compare la signature de l'expéditeur avec sa fiche contact et propose les mises à jour."/>
+        </bt:LongStrings>
+      </Resources>
+    </VersionOverrides>
+  </VersionOverrides>
+</OfficeApp>
